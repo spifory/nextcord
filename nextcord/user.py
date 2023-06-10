@@ -53,7 +53,7 @@ class BaseUser(_UserTag):
     if TYPE_CHECKING:
         name: str
         id: int
-        discriminator: str
+        discriminator: Optional[str]
         bot: bool
         system: bool
         _state: ConnectionState
@@ -75,7 +75,11 @@ class BaseUser(_UserTag):
         )
 
     def __str__(self) -> str:
-        return f"{self.name}#{self.discriminator}"
+        return (
+            f"{self.name}#{self.discriminator}"
+            if self.discriminator and self.discriminator != "0"
+            else self.name
+        )
 
     def __eq__(self, other: Any) -> bool:
         return isinstance(other, _UserTag) and other.id == self.id
@@ -89,7 +93,8 @@ class BaseUser(_UserTag):
     def _update(self, data: Union[PartialUserPayload, UserPayload]) -> None:
         self.name = data["username"]
         self.id = int(data["id"])
-        self.discriminator = data["discriminator"]
+        discriminator = data.get("discriminator")
+        self.discriminator = None if discriminator == "0" else discriminator
         self._avatar = data["avatar"]
         self._banner = data.get("banner", None)
         self._accent_colour = data.get("accent_color", None)
@@ -144,7 +149,8 @@ class BaseUser(_UserTag):
 
         This is calculated by the user's discriminator.
         """
-        return Asset._from_default_avatar(self._state, int(self.discriminator) % len(DefaultAvatar))
+        # TODO: How is the new way of determining default avatar?
+        return Asset._from_default_avatar(self._state, int(self.discriminator or 0) % len(DefaultAvatar))
 
     @property
     def display_avatar(self) -> Asset:
