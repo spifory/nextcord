@@ -128,7 +128,7 @@ class User(Snowflake, Protocol):
     __slots__ = ()
 
     name: str
-    discriminator: str
+    discriminator: Optional[str]
     avatar: Asset
     bot: bool
 
