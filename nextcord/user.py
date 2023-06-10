@@ -149,8 +149,7 @@ class BaseUser(_UserTag):
 
         This is calculated by the user's discriminator.
         """
-        # TODO: How is the new way of determining default avatar?
-        return Asset._from_default_avatar(self._state, int(self.discriminator or 0) % len(DefaultAvatar))
+        return Asset._from_default_avatar(self._state, int(self.discriminator) % len(DefaultAvatar))
 
     @property
     def display_avatar(self) -> Asset:
