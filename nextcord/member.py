@@ -249,7 +249,7 @@ class Member(abc.Messageable, _UserTag):
     if TYPE_CHECKING:
         name: str
         id: int
-        discriminator: str
+        discriminator: Optional[str]
         bot: bool
         system: bool
         created_at: datetime.datetime
@@ -387,13 +387,19 @@ class Member(abc.Messageable, _UserTag):
     def _update_inner_user(self, user: UserPayload) -> Optional[Tuple[User, User]]:
         u = self._user
         original = (u.name, u._avatar, u.discriminator, u._public_flags)
+        
+        discriminator: Optional[str] = user.get("discriminator")
+        if discriminator == "0":
+            discriminator = None
+        
         # These keys seem to always be available
         modified = (
             user["username"],
             user["avatar"],
-            user["discriminator"],
+            discriminator,
             user.get("public_flags", 0),
         )
+
         if original != modified:
             to_return = User._copy(self._user)
             u.name, u._avatar, u.discriminator, u._public_flags = modified
