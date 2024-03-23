@@ -2037,6 +2037,110 @@ class ForumLayoutType(IntEnum):
     """Display posts as a collection of posts with images, this is more image focused."""
 
 
+class AppMonetisationState(IntEnum):
+    """Represents the monetisation state of an application.
+
+    .. versionadded:: 3.0
+    """
+
+    none = 1
+    """The application has no monetisation setup."""
+    enabled = 2
+    """The application has monetisation set up."""
+    blocked = 3
+    """The application has been blocked from monetising."""
+
+
+class AppDiscoverabilityState(IntEnum):
+    """Represents the discoverability state of an application.
+
+    .. versionadded:: 3.0
+    """
+
+    ineligible = 1
+    """The application is ineligible for the application directory."""
+    not_discoverable = 2
+    """The application is not listed in the application directory."""
+    discoverable = 3
+    """The application is listed in the application directory."""
+    featureable = 4
+    """The application is featureable in the application directory."""
+    blocked = 5
+    """The application is blocked from appearing in the application directory."""
+
+
+class ExplicitContentFilterLevel(IntEnum):
+    """Represents the content filter level for media uploaded in application commands.
+
+    .. versionadded:: 3.0"""
+
+    disabled = 0
+    """Media content will not be filtered."""
+    enabled = 1
+    """Media content will be filtered."""
+
+
+class AppInteractionsVersion(IntEnum):
+    """Represents the interactions version for an application.
+
+    .. versionadded:: 3.0
+    """
+
+    version_1 = 1
+    """Only ``Interaction Create`` events are sent."""
+    version_2 = 2
+    """A selection of chosen events are sent."""
+
+
+class RPCAppState(IntEnum):
+    """Represents an application's RPC access state
+
+    .. versionadded:: 3.0
+    """
+
+    disabled = 0
+    """The application does not have RPC access."""
+    unsubmitted = 1
+    """The application has not been applied for RPC access."""
+    submitted = 2
+    """The appplication has been submitted a RPC access request."""
+    approved = 3
+    """The application has been approved for RPC access."""
+    rejected = 4
+    """The application has been rejected for RPC access."""
+
+
+class StoreAppState(IntEnum):
+    """Represents the state of a commerce application.
+
+    .. versionadded:: 3.0"""
+
+    none = 1
+    """The application does not have a commerce license."""
+    paid = 2
+    """Application has a commerce license but has not submitted a store approval request."""
+    submitted = 3
+    """The application has submitted a store approval request."""
+    approved = 4
+    """The application has been approved for the store."""
+    rejected = 5
+    """The application has been rejected from the store"""
+
+
+class AppVerificationState(IntEnum):
+    """Represents the state of verification for an application.
+
+    .. versionadded:: 3.0
+    """
+    ineligible = 1
+    """The application is ineligible for verification."""
+    unsubmitted = 2
+    """The application has not applied for verification."""
+    submitted = 3
+    """The application has submitted a verification request."""
+    succeeded = 4
+    """The application has been verified"""
+
 T = TypeVar("T")
 
 

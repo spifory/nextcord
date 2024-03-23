@@ -45,12 +45,10 @@ class flag_value:
         self.__doc__ = func.__doc__
 
     @overload
-    def __get__(self, instance: None, owner: Type[BF]) -> Self:
-        ...
+    def __get__(self, instance: None, owner: Type[BF]) -> Self: ...
 
     @overload
-    def __get__(self, instance: BF, owner: Type[BF]) -> bool:
-        ...
+    def __get__(self, instance: BF, owner: Type[BF]) -> bool: ...
 
     def __get__(self, instance: Optional[BF], owner: Type[BF]) -> Any:
         if instance is None:
@@ -1414,3 +1412,213 @@ class RoleFlags(BaseFlags):
     def in_prompt(self):
         """:class:`bool`: Returns ``True`` if the role can be selected in an onboarding prompt."""
         return 1 << 0
+
+
+class AppDiscoveryEligibilityFlags(BaseFlags):
+    r"""Wraps up the Discord Application Discovery Eligibility Flags.
+
+    .. container:: operations
+
+        .. describe:: x == y
+
+            Checks if two AppDiscoveryEligibilityFlags are equal.
+        .. describe:: x != y
+
+            Checks if two AppDiscoveryEligibilityFlags are not equal.
+        .. describe:: hash(x)
+
+            Return the flag's hash.
+        .. describe:: iter(x)
+
+            Returns an iterator of ``(name, value)`` pairs. This allows it
+            to be, for example, constructed as a dict or a list of pairs.
+            Note that aliases are not shown.
+
+    .. versionadded:: 3.0
+
+    Attributes
+    ----------
+    value: :class:`int`
+        The raw value. You should query flags via the properties
+        rather than using this raw value.
+    """
+
+    @flag_value
+    def verified(self):
+        """:class:`bool`: Returns ``True`` if the application is verified."""
+        return 1 << 0
+
+    @flag_value
+    def tag(self):
+        """:class:`bool`: Returns ``True`` if the application has one or more tag set."""
+        return 1 << 1
+
+    @flag_value
+    def description(self):
+        """:class:`bool`: Returns ``True`` if the application has a description."""
+        return 1 << 2
+
+    @flag_value
+    def terms_of_service(self):
+        """:class:`bool`: Returns ``True`` if the application's terms of service has been set."""
+        return 1 << 3
+
+    @flag_value
+    def privacy_policy(self):
+        """:class:`bool`: Returns ``True`` if the application's privacy policy has been set."""
+        return 1 << 4
+
+    @flag_value
+    def install_params(self):
+        """:class:`bool`: Returns ``True`` if the application has a custom install URL or install parameters."""
+        return 1 << 5
+
+    @flag_value
+    def safe_name(self):
+        """:class:`bool`: Returns ``True`` if the application's name is SFW."""
+        return 1 << 6
+
+    @flag_value
+    def safe_description(self):
+        """:class:`bool`: Returns ``True`` if the application's description is SFW."""
+        return 1 << 7
+
+    @flag_value
+    def approved_commands(self):
+        """:class:`bool`: Returns ``True`` if the application has the message content intent or uses application commands."""
+        return 1 << 8
+
+    @flag_value
+    def support_guild(self):
+        """:class:`bool`: Returns ``True`` if the application has a support guild set."""
+        return 1 << 9
+
+    @flag_value
+    def safe_commands(self):
+        """:class:`bool`: Returns ``True`` if the application's commands are SFW."""
+        return 1 << 10
+
+    @flag_value
+    def mfa(self):
+        """:class:`bool`: Returns ``True`` if the application's owner has MFA enabled."""
+        return 1 << 11
+
+    @flag_value
+    def safe_directory_overview(self):
+        """:class:`bool`: Returns ``True`` if the application's long description is SFW."""
+        return 1 << 12
+
+    @flag_value
+    def supported_locales(self):
+        """:class:`bool`: Returns ``True`` if the application has one or more supported locale set."""
+        return 1 << 13
+
+    @flag_value
+    def safe_short_description(self):
+        """:class:`bool`: Returns ``True`` if the application's short description is SFW."""
+        return 1 << 14
+
+    @flag_value
+    def safe_role_connections(self):
+        """:class:`bool`: Returns ``True`` if the application's role connections metadata is SFW."""
+        return 1 << 15
+
+    @flag_value
+    def eligible(self):
+        """:class:`bool`: Returns ``True`` if the application is eligible for discovery."""
+        return 1 << 16
+
+
+class AppMonetisationEligibilityFlags(BaseFlags):
+    r"""Wraps up the Discord Application Monetisation Eligibility Flags.
+
+    .. container:: operations
+
+        .. describe:: x == y
+
+            Checks if two AppMonetisationEligibilityFlags are equal.
+        .. describe:: x != y
+
+            Checks if two AppMonetisationEligibilityFlags are not equal.
+        .. describe:: hash(x)
+
+            Return the flag's hash.
+        .. describe:: iter(x)
+
+            Returns an iterator of ``(name, value)`` pairs. This allows it
+            to be, for example, constructed as a dict or a list of pairs.
+            Note that aliases are not shown.
+
+    .. versionadded:: 3.0
+
+    Attributes
+    ----------
+    value: :class:`int`
+        The raw value. You should query flags via the properties
+        rather than using this raw value.
+    """
+
+    @flag_value
+    def verified(self):
+        """:class:`bool`: Returns ``True`` if the application is verified."""
+        return 1 << 0
+
+    @flag_value
+    def has_team(self):
+        """:class:`bool`: Returns ``True`` if the application is owned by a team."""
+        return 1 << 1
+
+    @flag_value
+    def approved_commands(self):
+        """:class:`bool`: Returns ``True`` if the application has the message content intent or uses application commands."""
+        return 1 << 2
+
+    @flag_value
+    def terms_of_service(self):
+        """:class:`bool`: Returns ``True`` if the application's terms of service has been set."""
+        return 1 << 3
+
+    @flag_value
+    def privacy_policy(self):
+        """:class:`bool`: Returns ``True`` if the application's privacy policy has been set."""
+        return 1 << 4
+
+    @flag_value
+    def safe_name(self):
+        """:class:`bool`: Returns ``True`` if the application's name is SFW."""
+        return 1 << 5
+
+    @flag_value
+    def safe_description(self):
+        """:class:`bool`: Returns ``True`` if the application's description is SFW."""
+        return 1 << 6
+
+    @flag_value
+    def safe_role_connections(self):
+        """:class:`bool`: Returns ``True`` if the application's role connections metadata is SFW."""
+        return 1 << 7
+
+    @flag_value
+    def not_quarantined(self):
+        """:class:`bool`: Returns ``True`` if the application is not quarantined."""
+        return 1 << 9
+
+    @flag_value
+    def team_members_email_verified(self):
+        """:class:`bool`: Returns ``True`` if the application's team members all have verified emails."""
+        return 1 << 15
+
+    @flag_value
+    def team_members_mfa_enabled(self):
+        """:class:`bool`: Returns ``True`` if the application's team member's all have MFA enabled."""
+        return 1 << 16
+
+    @flag_value
+    def no_blocking_issues(self):
+        """:class:`bool`: Returns ``True`` if the application has no issues that block monetisation."""
+        return 1 << 17
+
+    @flag_value
+    def valid_payout_status(self):
+        """:class:`bool`: Returns ``True`` if the application's team has a valid payout status."""
+        return 1 << 18
