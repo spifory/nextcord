@@ -6,8 +6,8 @@ from typing_extensions import NotRequired
 
 from .snowflake import Snowflake
 
-AutoModerationEventType = Literal[1]
-AutoModerationTriggerType = Literal[1, 2, 3, 4, 5]
+AutoModerationEventType = Literal[1, 2]
+AutoModerationTriggerType = Literal[1, 2, 3, 4, 5, 6]
 KeywordPresetType = Literal[1, 2, 3]
 AutoModerationActionType = Literal[1, 2, 3, 4]
 
@@ -24,6 +24,7 @@ class AutoModerationTriggerMetadata(TypedDict, total=False):
 class AutoModerationActionMetadata(TypedDict, total=False):
     channel_id: Snowflake
     duration_seconds: int
+    custom_message: str
 
 
 class AutoModerationAction(TypedDict):

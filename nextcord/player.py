@@ -120,6 +120,12 @@ class FFmpegAudio(AudioSource):
     :class:`FFmpegOpusAudio` work should subclass this.
 
     .. versionadded:: 1.3
+
+    Warnings
+    --------
+    As this wraps a subprocess call, ensure that
+    arguments such as ``executable`` are not
+    set from direct user input.
     """
 
     def __init__(
@@ -232,6 +238,11 @@ class FFmpegPCMAudio(FFmpegAudio):
         passed to the stdin of ffmpeg.
     executable: :class:`str`
         The executable name (and path) to use. Defaults to ``ffmpeg``.
+
+        .. warning::
+
+            As this wraps a subprocess call, ensure that
+            this argument is not set from direct user input.
     pipe: :class:`bool`
         If ``True``, denotes that ``source`` parameter will be passed
         to the stdin of ffmpeg. Defaults to ``False``.
@@ -333,6 +344,11 @@ class FFmpegOpusAudio(FFmpegAudio):
 
     executable: :class:`str`
         The executable name (and path) to use. Defaults to ``ffmpeg``.
+
+        .. warning::
+
+            As this wraps a subprocess call, ensure that
+            this argument is not set from direct user input.
     pipe: :class:`bool`
         If ``True``, denotes that ``source`` parameter will be passed
         to the stdin of ffmpeg. Defaults to ``False``.
@@ -549,8 +565,8 @@ class FFmpegOpusAudio(FFmpegAudio):
                 _log.info("Fallback probe found codec=%s, bitrate=%s", codec, bitrate)
         else:
             _log.info("Probe found codec=%s, bitrate=%s", codec, bitrate)
-        finally:
-            return codec, bitrate  # noqa: B012  # all exception are caught already
+
+        return codec, bitrate
 
     @staticmethod
     def _probe_codec_native(
@@ -680,12 +696,10 @@ class AudioPlayer(threading.Thread):
             raise TypeError('Expected a callable for the "after" parameter.')
 
     def _do_run(self) -> None:
-        self.loops = 0
-        self._start = time.perf_counter()
+        self._reset_state(speak=True)
 
         # getattr lookup speed ups
         play_audio = self.client.send_audio_packet
-        self._speak(True)
 
         while not self._end.is_set():
             # are we paused?
@@ -699,8 +713,7 @@ class AudioPlayer(threading.Thread):
                 # wait until we are connected
                 self._connected.wait()
                 # reset our internal data
-                self.loops = 0
-                self._start = time.perf_counter()
+                self._reset_state(speak=self._resumed.is_set())
 
             self.loops += 1
             data = self.source.read()
@@ -713,6 +726,14 @@ class AudioPlayer(threading.Thread):
             next_time = self._start + self.DELAY * self.loops
             delay = max(0, self.DELAY + (next_time - time.perf_counter()))
             time.sleep(delay)
+
+    # this is called right after (re)connecting;
+    # reset the timings and set the speaking state accordingly
+    def _reset_state(self, *, speak: bool) -> None:
+        self.loops = 0
+        self._start = time.perf_counter()
+        if speak:
+            self._speak(True)
 
     def run(self) -> None:
         try:
